@@ -7,7 +7,7 @@ import (
 )
 
 // Program that displays its last argument if there is one
-func main() {
+func mainxc() {
 	if len(os.Args) > 1 {
 		lastparam := os.Args[len(os.Args)-1]
 		for _, c := range lastparam {

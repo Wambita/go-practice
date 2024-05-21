@@ -10,7 +10,7 @@ import (
 // A word is a section of string delimited by spaces or by the start/end of the string.
 // The output will be followed by a newline ('\n').
 // If the number of arguments is different from 1, or if there are no word, the program displays nothing.
-func main() {
+func mainpp() {
 	if len(os.Args) != 2 {
 		return
 	}

@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func main() {
+func mainn() {
 	count := 0
 	if len(os.Args) > 1 {
 		args := os.Args[1:]

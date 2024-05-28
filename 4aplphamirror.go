@@ -30,22 +30,48 @@ $
 
 func main() {
 	if len(os.Args) != 2 {
+		z01.PrintRune('\n')
 		return
 	}
+
 	word := (os.Args[1])
-	count := 25 // count from a - m 
-	countb := -1 // count from m - z
+	var result string
 	for _, c := range word {
-		if (c >= 'a' && c <= 'm') || (c >= 'A' && c <= 'M') {
-			z01.PrintRune(c + rune(count))
-			count = count - 2
-		} else if (c >= 'n' && c <= 'z') || (c >= 'N' && c <= 'Z') {
-			z01.PrintRune(c + rune(countb))
-			countb = countb - 2
-		
-		} else {
-			z01.PrintRune(c)
-		}
+		result += string(mirror(c))
+	}
+	for _, i := range result {
+		z01.PrintRune(i)
 	}
 	z01.PrintRune('\n')
+}
+
+func mirror(r rune) rune {
+	if r >= 'A' && r <= 'Z' {
+		return 'A' + 'Z' - r
+	} else if r >= 'a' && r <= 'z' {
+		return 'a' + 'z' - r
+	}
+	return r
+}
+
+func mirror2(r rune) rune {
+	m := make(map[rune]rune)
+
+	r2 := 'z'
+	for r := 'a'; r <= 'z' && r2 >= 'a'; r++ {
+		m[r] = r2
+		r2--
+	}
+
+	r2 = 'Z'
+	for r := 'A'; r <= 'Z' && r2 >= 'A'; r++ {
+		m[r] = r2
+		r2--
+	}
+
+	out, ok := m[r]
+	if !ok {
+		return r
+	}
+	return out
 }

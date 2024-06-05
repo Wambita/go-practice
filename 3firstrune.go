@@ -3,7 +3,7 @@ package main
 import "github.com/01-edu/z01"
 
 // Write a function that returns the first rune of a string.
-func main() {
+func maccin() {
 	z01.PrintRune(FirstRune(" Hello!"))
 	z01.PrintRune(FirstRune("Salut!"))
 	z01.PrintRune(FirstRune("Ola!"))

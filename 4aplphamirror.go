@@ -28,7 +28,7 @@ $ go run .
 $
 */
 
-func main() {
+func nmain() {
 	if len(os.Args) != 2 {
 		z01.PrintRune('\n')
 		return

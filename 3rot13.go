@@ -24,7 +24,7 @@ URYYB, URYC
 $ go run .
 $
 */
-func main() {
+func mainxp() {
 	if len(os.Args) != 2 {
 		return
 	}

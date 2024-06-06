@@ -6,48 +6,50 @@ import (
 	"github.com/01-edu/z01"
 )
 
-func main()  {
-
-	args := os.Args[1:]
-	if len(args) != 2 {
+func main() {
+	if len(os.Args) != 3 {
 		return
 	}
+	word1 := os.Args[1]
+	word2 := os.Args[2]
 
-	s1 := args[0]
-	s2 := args[1]
-
-	result := ""
-	for _, r1 := range s1 {
-		if Contains(result, r1) {
-			continue
-		}
-		for _, r2 := range s2 {
-			if r1 == r2 {
-				result += string(r1)
-				break
-			}
-		}
-	}
-
-	printString(result)
-	printString("\n")
-
-
-	
+	result := Inter(word1, word2)
+	PrintString(result)
 }
 
-func Contains(s string, r rune) bool {
-	for _, r2 := range s {
-		if r == r2 {
+// check if char already exists in the result
+func Contain(result string, char rune) bool {
+	for _, c := range result {
+		if char == c {
 			return true
 		}
 	}
 	return false
 }
 
-func printString( s string) {
-	for _, r := range s {
-		z01.PrintRune(r)
+// func inter
+func Inter(word1, word2 string) string {
+	// stores the matches found
+	result := ""
+	for _, char := range word1 {
+		if Contain(result, char) {
+			continue
+		} else {
+			for _, char2 := range word2 {
+				if char == char2 {
+					result += string(char2)
+					break
+				}
+			}
+		}
 	}
+	return result
 }
 
+// print string as runes
+func PrintString(s string) {
+	for _, char := range s {
+		z01.PrintRune(char)
+	}
+	z01.PrintRune('\n')
+}

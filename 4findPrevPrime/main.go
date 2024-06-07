@@ -5,15 +5,17 @@ import "fmt"
 func main() {
 	fmt.Println(FindPrevPrime(5))
 	fmt.Println(FindPrevPrime(4))
+	fmt.Println(FindPrevPrime(1))
+	fmt.Println(FindPrevPrime(6))
 }
 
 func FindPrevPrime(nb int) string {
-	if nb < 0 {
+	if nb <= 0 {
 		return "0"
 	}
 	for i := nb; i >= 0; i-- {
-		if IsPrime(nb) {
-			Itoa(i)
+		if IsPrime(i) {
+			return Itoa(i)
 		}
 	}
 	return "0"
@@ -23,14 +25,10 @@ func IsPrime(nb int) bool {
 	if nb <= 1 {
 		return false
 	}
-	if nb%2 == 0 && nb != 2 {
-		return false
-	}
-	for i := 1; i < nb; i++ {
-		if nb%i != 0 {
-			continue
-		} else {
-			break
+
+	for i := 2; i*i <= nb; i++ {
+		if nb%i == 0 {
+			return false
 		}
 	}
 	return true

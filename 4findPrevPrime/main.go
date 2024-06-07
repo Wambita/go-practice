@@ -7,6 +7,7 @@ func main() {
 	fmt.Println(FindPrevPrime(4))
 	fmt.Println(FindPrevPrime(1))
 	fmt.Println(FindPrevPrime(6))
+	fmt.Println(FindPrevPrime(999900))
 }
 
 func FindPrevPrime(nb int) string {
@@ -25,7 +26,9 @@ func IsPrime(nb int) bool {
 	if nb <= 1 {
 		return false
 	}
-
+	if nb%2 == 0 && nb != 2 {
+		return false
+	}
 	for i := 2; i*i <= nb; i++ {
 		if nb%i == 0 {
 			return false

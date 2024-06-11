@@ -17,10 +17,12 @@ func main() {
 
 	if len(LetterToBeReplaced) > 1 || len(LetterToBeReplacedWith) > 1 {
 		j := 0
-		for i := 0; i < len(word) && j < len(LetterToBeReplaced); i++ {
-			if word[i] == LetterToBeReplaced[i] {
-				finalString += string(LetterToBeReplacedWith[i])
+		k := 0
+		for i := 0; i < len(word) && j < len(LetterToBeReplaced) && k < len(LetterToBeReplacedWith); i++ {
+			if word[i] == LetterToBeReplaced[j] {
+				finalString += string(LetterToBeReplacedWith[k])
 				j++
+				k++
 			} else {
 				finalString += string(word[i])
 			}

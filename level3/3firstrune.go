@@ -3,10 +3,11 @@ package main
 import "github.com/01-edu/z01"
 
 // Write a function that returns the first rune of a string.
-func maccin() {
+func main() {
 	z01.PrintRune(FirstRune(" Hello!"))
 	z01.PrintRune(FirstRune("Salut!"))
 	z01.PrintRune(FirstRune("Ola!"))
+	z01.PrintRune(firstRune("   fana"))
 	z01.PrintRune('\n')
 
 	z01.PrintRune(firstRune(" Hello!"))
@@ -16,9 +17,7 @@ func maccin() {
 }
 
 func FirstRune(s string) rune {
-	srune := []rune(s)
-
-	for _, char := range srune {
+	for _, char := range s {
 		if char != ' ' {
 			return char
 		}
@@ -29,7 +28,5 @@ func FirstRune(s string) rune {
 
 // attempt 2 easy
 func firstRune(s string) rune {
-	srune := []rune(s)
-
-	return srune[0]
+	return rune(s[0])
 }

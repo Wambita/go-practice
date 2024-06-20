@@ -30,18 +30,25 @@ func main() {
 }
 
 func FoldInt(f func(int, int) int, a []int, n int) {
-	a = append(a, n)
+	// a = append(a, n)
 
-	if len(a) == 0 {
-		return
-	}
-	result := a[0]
-	for i := 0; i < len(a)-1; i++ {
-		result = f(abs(result), abs(a[i+1]))
-	}
+	// if len(a) == 0 {
+	// 	return
+	// }
+	// result := a[0]
+	// for i := 0; i < len(a)-1; i++ {
+	// 	result = f(abs(result), abs(a[i+1]))
+	// }
 
-	result2 := Itoa(result)
-	PrintString(result2)
+	// result2 := Itoa(result)
+	// PrintString(result2)
+
+	var total int
+	for _, value := range a {
+		total += value
+	}
+	result := f(total, n)
+	PrintString(Itoa(result))
 }
 
 // Printstring
@@ -82,10 +89,10 @@ func Itoa(nb int) string {
 	return string(number)
 }
 
-// absolute values
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
+// // absolute values
+// func abs(x int) int {
+// 	if x < 0 {
+// 		return -x
+// 	}
+// 	return x
+// }

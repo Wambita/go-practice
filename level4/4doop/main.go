@@ -4,7 +4,8 @@ import (
 	"os"
 )
 
-func Atoi(s string) int {
+// Atoi
+func Atoi(s string) (int, bool) {
 	number := 0
 	sign := 1
 
@@ -16,14 +17,22 @@ func Atoi(s string) int {
 			continue
 		}
 		if char < '0' || char > '9' {
-			return 0
+			return 0, false
 		} else {
+			if overflowMul(number, 10) {
+				return 0, false
+			}
+			if overflowAdd(number*10, int(char-'0')) {
+				return 0, false
+			}
 			number = number*10 + int(char-'0')
 		}
 	}
-	return number * sign
+
+	return number * sign, true
 }
 
+// Itoa
 func Itoa(nb int) string {
 	if nb == 0 {
 		return "0"
@@ -48,44 +57,20 @@ func Itoa(nb int) string {
 	return string(number)
 }
 
-// is digit
-func isDigit(s string) bool {
-	if len(s) == 0 {
-		return false
-	}
-	for i, char := range s {
-
-		if i == 0 && (char == '-' || char == '+') {
-			continue
-		}
-		if char < '0' || char > '9' {
-			return false
-		}
-	}
-	return true
-}
-
 func main() {
 	args := os.Args[1:]
 	if len(args) != 3 {
 		return
 	}
-	value1 := args[0]
 	operator := args[1]
-	value2 := args[2]
 	var result int
 
-	if !(isDigit(value1)) || !(isDigit(value2)) {
+	value1Int, ok := Atoi(args[0])
+	if !ok {
 		return
 	}
-
-	value1Int := Atoi(value1)
-	value2Int := Atoi(value2)
-
-	if (value1Int >= 9223372036854775807) || (value1Int <= -9223372036854775808) {
-		return
-	}
-	if (value2Int >= 9223372036854775807) || (value2Int <= -9223372036854775808) {
+	value2Int, ok := Atoi(args[2])
+	if !ok {
 		return
 	}
 
@@ -93,28 +78,30 @@ func main() {
 
 	switch operator {
 	case "+":
+		if overflowAdd(value1Int, value2Int) {
+			return
+		}
 		result = value1Int + value2Int
+
 	case "-":
+		if overflowSub(value1Int, value2Int) {
+			return
+		}
 		result = value1Int - value2Int
 	case "*":
+		if overflowMul(value1Int, value2Int) {
+			return
+		}
 		result = value1Int * value2Int
 	case "/":
 		if value2Int == 0 {
-			message := "No division by 0\n"
-			_, err := os.Stdout.WriteString(message)
-			if err != nil {
-				return
-			}
+			PrintString("No division by 0\n")
 			return
 		}
 		result = value1Int / value2Int
 	case "%":
 		if value2Int == 0 {
-			message := "No modulo by 0"
-			_, err := os.Stdout.Write([]byte(message))
-			if err != nil {
-				return
-			}
+			PrintString("No modulo by 0\n")
 			return
 		}
 		result = value1Int % value2Int
@@ -123,9 +110,41 @@ func main() {
 	}
 
 	resultStr := Itoa(result)
-	resultbyte := []byte(resultStr)
-	_, err := os.Stdout.Write(resultbyte)
-	if err != nil {
-		return
-	}
+	PrintString(string(resultStr))
+	PrintString("\n")
 }
+
+// checking for overflows
+// if an overflow is encountered , it goes to the other side of the range, no overflow in division
+func overflowAdd(value1 int, value2 int) bool {
+	c := value1 + value2
+	return value1 > 0 && value2 > 0 && c < 0
+}
+
+func overflowSub(value1 int, value2 int) bool {
+	c := value1 - value2
+	return value1 < 0 && value2 < 0 && c > 0
+}
+
+func overflowMul(value1 int, value2 int) bool {
+	c := value1 * value2
+	if value1 != 0 {
+		return c/value1 != value2
+	} else if value2 != 0 {
+		return c/value2 != value1
+	}
+	return false
+}
+
+func PrintString(s string) {
+	_, _ = os.Stdout.WriteString(s)
+}
+
+// functions
+// Atoi
+// Itoa
+// overflowAdd
+// overflowSub
+// overflowMul
+// main
+// print string

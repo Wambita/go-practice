@@ -65,12 +65,9 @@ func main() {
 	operator := args[1]
 	var result int
 
-	value1Int, ok := Atoi(args[0])
-	if !ok {
-		return
-	}
-	value2Int, ok := Atoi(args[2])
-	if !ok {
+	value1Int, ok1 := Atoi(args[0])
+	value2Int, ok2 := Atoi(args[2])
+	if !ok1 || !ok2 {
 		return
 	}
 

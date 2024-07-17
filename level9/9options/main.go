@@ -4,14 +4,6 @@ import (
 	"os"
 )
 
-const validOptions = "abcdefghijklmnopqrstuvwxyz"
-
-// printHelp prints the valid options to os.Stdout
-func printHelp() {
-	optionsStr := "options: " + validOptions + "\n"
-	writeString(optionsStr)
-}
-
 // isValidOption checks if a given byte is a valid option character
 func isValidOption(option byte) bool {
 	return 'a' <= option && option <= 'z'
@@ -27,6 +19,7 @@ func writeString(s string) {
 // writeBinary formats and prints the bitmask as required
 func writeBinary(bitmask uint32) {
 	result := ""
+	// each byte has length of 8
 	// Iterate over each byte (4 bytes in total for uint32)
 	for i := 0; i < 4; i++ {
 		// Extract the current byte from the bitmask and format it as binary
@@ -50,7 +43,7 @@ func main() {
 
 	// Check if no arguments or if -h flag is present
 	if len(args) == 0 || (len(args) > 0 && args[0] == "-h") {
-		printHelp() // Print help message and exit
+		writeString("options: abcdefghijklmnopqrstuvwxyz\n") // Print help message and exit
 		return
 	}
 
@@ -77,3 +70,9 @@ func main() {
 
 	writeBinary(bitmask) // Print the bitmask in binary format
 }
+
+// functions
+// 1.writeString
+// 2.validoptions
+// 3.writeBinary
+// 4.Main

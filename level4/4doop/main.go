@@ -4,6 +4,32 @@ import (
 	"os"
 )
 
+// checking for overflows
+// if an overflow is encountered , it goes to the other side of the range, no overflow in division
+func overflowAdd(value1 int, value2 int) bool {
+	c := value1 + value2
+	return value1 > 0 && value2 > 0 && c < 0
+}
+
+func overflowSub(value1 int, value2 int) bool {
+	c := value1 - value2
+	return value1 < 0 && value2 < 0 && c > 0
+}
+
+func overflowMul(value1 int, value2 int) bool {
+	c := value1 * value2
+	if value1 != 0 {
+		return c/value1 != value2
+	} else if value2 != 0 {
+		return c/value2 != value1
+	}
+	return false
+}
+
+func PrintString(s string) {
+	_, _ = os.Stdout.WriteString(s)
+}
+
 // Atoi
 func Atoi(s string) (int, bool) {
 	number := 0
@@ -109,32 +135,6 @@ func main() {
 	resultStr := Itoa(result)
 	PrintString(string(resultStr))
 	PrintString("\n")
-}
-
-// checking for overflows
-// if an overflow is encountered , it goes to the other side of the range, no overflow in division
-func overflowAdd(value1 int, value2 int) bool {
-	c := value1 + value2
-	return value1 > 0 && value2 > 0 && c < 0
-}
-
-func overflowSub(value1 int, value2 int) bool {
-	c := value1 - value2
-	return value1 < 0 && value2 < 0 && c > 0
-}
-
-func overflowMul(value1 int, value2 int) bool {
-	c := value1 * value2
-	if value1 != 0 {
-		return c/value1 != value2
-	} else if value2 != 0 {
-		return c/value2 != value1
-	}
-	return false
-}
-
-func PrintString(s string) {
-	_, _ = os.Stdout.WriteString(s)
 }
 
 // functions

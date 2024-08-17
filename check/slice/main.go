@@ -43,11 +43,12 @@ func main() {
 	for _, a := range elems {
 		challenge.Function("Slice", Slice, solutions.Slice, a...)
 	}
-}
+} 
 
 func Slice(a []string, nbrs ...int) []string {
 	length := len(a)
 
+	// case 1 :nbrs== 0
 	if len(nbrs) == 0 {
 		return a
 	}
@@ -55,31 +56,34 @@ func Slice(a []string, nbrs ...int) []string {
 	start := nbrs[0]
 	end := length
 
+	// normal
 	if len(nbrs) > 1 {
 		end = nbrs[1]
 	}
 
-	// Handle negative indices
+	// negatve indices
 	if start < 0 {
 		start = length + start
 	}
+
 	if end < 0 {
-		end = length + end
+		end = end + length
+	}
+	if end == 0 && len(nbrs) > 1 {
+		return nil
 	}
 
-	// Ensure start and end are within bounds
+	// within bounds
 	if start < 0 {
-		 start = 0
-		return []string{}
+		start = 0
 	}
 	if end > length {
-		// end = length
-		return []string{}
+		end = length
 	}
 
-	// Return nil if start is greater than end or length
+	// start greater than length or end
 	if start >= length || start >= end {
-		return nil
+		return []string{}
 	}
 
 	return a[start:end]

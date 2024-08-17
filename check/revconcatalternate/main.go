@@ -87,7 +87,7 @@ func RevConcatAlternate(slice1, slice2 []int) []int {
 		minlen = len2
 	}
 
-	// apppend list
+	// append list
 	if len1 > len2 {
 		for i := len1 - 1; i >= minlen; i-- {
 			temp = append(temp, slice1[i])

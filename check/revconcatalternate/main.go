@@ -97,11 +97,8 @@ func RevConcatAlternate(slice1, slice2 []int) []int {
 		for i := len2 - 1; i >= minlen; i-- {
 			temp = append(temp, slice2[i])
 		}
+		slice2 = slice2[:minlen]
 	}
-
-	// sort
-	slice1 = (slice1)
-	slice2 = (slice2)
 
 	for i := minlen - 1; i >= 0; i-- {
 		temp = append(temp, slice1[i], slice2[i])

@@ -1,78 +1,104 @@
 package main
 
 import (
+	"fmt"
 	"os"
 )
 
-// isValidOption checks if a given byte is a valid option character
-func isValidOption(option byte) bool {
-	return 'a' <= option && option <= 'z'
-}
-
-// writeString writes a string to os.Stdout
-func writeString(s string) {
-	for i := 0; i < len(s); i++ {
-		os.Stdout.Write([]byte{s[i]})
-	}
-}
-
-// writeBinary formats and prints the bitmask as required
-func writeBinary(bitmask uint32) {
-	result := ""
-	// each byte has length of 8
-	// Iterate over each byte (4 bytes in total for uint32)
-	for i := 0; i < 4; i++ {
-		// Extract the current byte from the bitmask and format it as binary
-		byteVal := byte((bitmask >> (8 * (3 - i))) & 0xFF) // Get the i-th byte from left to right
-		// Format the byte as an 8-bit binary string
-		for j := 0; j < 8; j++ {
-			if byteVal&(1<<(7-j)) != 0 {
-				result += "1"
-			} else {
-				result += "0"
-			}
+// function to check for vald charatcters
+func isValid(s string) bool {
+	for _, c := range s {
+		if !(c >= 'a' && c <= 'z' || c == '-') {
+			return false
 		}
-		result += " " // Separate each byte with a space
 	}
-	result += "\n" // Add newline at the end of the binary representation
-	writeString(result)
+	return true
+}
+
+// fuction to check if -h option is present in the string
+func isHactive(s string) bool {
+	for i := 0; i < len(s)-1; i++ {
+		if rune(s[i]) == '-' && rune(s[i+1]) == 'h' {
+			return true
+		}
+	}
+	return false
+}
+
+// function to convert  []string to string
+func toStr(arr []string) string {
+	str := ""
+	for _, s := range arr {
+		str += s
+	}
+	return str
 }
 
 func main() {
-	args := os.Args[1:] // Get command line arguments
+	args := os.Args[1:]
 
-	// Check if no arguments or if -h flag is present
-	if len(args) == 0 || (len(args) > 0 && args[0] == "-h") {
-		writeString("options: abcdefghijklmnopqrstuvwxyz\n") // Print help message and exit
+	// options
+	options := "options : abcdefghijklmnopqrstuvwxyz"
+
+	// no args
+	if len(args) == 0 {
+		fmt.Println(options)
 		return
 	}
 
-	var bitmask uint32 // Initialize bitmask to store options as bits
+	// args to string conversion
+	str := toStr(args)
 
-	// Process each argument
-	for _, arg := range args {
-		// Check if argument starts with '-' and has valid options
-		if len(arg) > 1 && arg[0] == '-' {
-			for i := 1; i < len(arg); i++ {
-				option := arg[i] // Get each option character
-				if !isValidOption(option) {
-					writeString("Invalid Option\n") // Print error for invalid option
-					return
-				}
-				// Set the corresponding bit in bitmask for the option character
-				bitmask += 1 << (option - 'a') // Set the bit corresponding to option
-			}
-		} else {
-			writeString("Invalid Option\n") // Print error for invalid argument
-			return
+	// check if  args are valid
+	if !isValid(str) {
+		fmt.Println("Invalid options")
+		return
+	}
+
+	// check if  h is active
+	if isHactive(str) {
+		fmt.Println(options)
+		return
+	}
+
+	// array of size 32 to rep each letter's active state
+	bits := make([]int, 32)
+
+	// map to track which chars have been processed
+	seen := make(map[rune]bool)
+
+	// loop through string to set corresponding bits for each option
+	for _, char := range str {
+		if !seen[char] && (char >= 'a' && char <= 'z') {
+			// pos of char relative to a
+			pos := int(char-'a') + 1
+			// set corresponding bit n the array
+			bits[pos-1] = 1
+			// mark char as seen/active
+			seen[char] = true
 		}
 	}
 
-	writeBinary(bitmask) // Print the bitmask in binary format
-}
+	//prepare final binary output string
+	res := ""
+	count := 0
 
-// functions
-// 1.writeString
-// 2.validoptions
-// 3.writeBinary
-// 4.Main
+	//loop throught the bits in reverse order to create binary output
+	for i:=len(bits)-1; i >=0; i-- {
+		//add a space btwn every 8bits except the last one
+		if count == 8 &&  i != 0{
+			res += "  "
+			count = 0
+		}
+		//t is  append bit to binary output string based on whether it is set or not
+		if bits[i] == 1 {
+			res += "1"
+		} else {
+			res += "0"
+		}
+		count++
+	}
+
+	// print the final binary output string
+	fmt.Println(res)
+}
